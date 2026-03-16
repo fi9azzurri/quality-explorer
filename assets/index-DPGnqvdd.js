@@ -76,8 +76,22 @@
       <button class="chip" data-filter="jp-hd-abroad-4k">🇯🇵 HD / 🌍 4K</button>
       <button class="chip" data-filter="all">All Movies</button>
     </div>
+    <div class="sort-bar">
+      <label class="sort-label">Sort by</label>
+      <select class="sort-select" id="sort-select">
+        <option value="imdb-desc">⭐ IMDB ↓</option>
+        <option value="imdb-asc">⭐ IMDB ↑</option>
+        <option value="rotten-desc">🍅 Rotten ↓</option>
+        <option value="rotten-asc">🍅 Rotten ↑</option>
+        <option value="year-desc">📅 Year ↓ (New→Old)</option>
+        <option value="year-asc">📅 Year ↑ (Old→New)</option>
+        <option value="title-asc">🔤 Title A→Z</option>
+        <option value="title-desc">🔤 Title Z→A</option>
+      </select>
+      <span class="sort-count" id="sort-count"></span>
+    </div>
     <div class="poster-grid" id="discover-grid"></div>
-  `;function t(e){document.querySelectorAll(`.chip`).forEach(t=>t.classList.toggle(`active`,t.dataset.filter===e));let t=N.filter(t=>{let n=M(t);switch(e){case`dv-atmos`:return n.dvCount>0&&n.atmosCount>0;case`dv`:return n.dvCount>0;case`atmos`:return n.atmosCount>0;case`4k`:return n.fourKCount>0;case`jp-hd-abroad-4k`:let e=_(t.id),r=e.JP;if(r&&r.video&&r.video!==`SDR`&&r.video!==`-`)return!1;for(let[t,n]of Object.entries(e))if(t!==`JP`&&n.video&&n.video!==`SDR`&&n.video!==`-`)return!0;return!1;case`all`:return!0;default:return!0}}).sort((e,t)=>parseFloat(t.imdbScore||0)-parseFloat(e.imdbScore||0)).slice(0,1500),n=document.getElementById(`discover-grid`);n.innerHTML=``,t.forEach(e=>n.appendChild(B(e)))}document.querySelectorAll(`.chip`).forEach(e=>{e.onclick=()=>t(e.dataset.filter)}),t(`dv-atmos`)}function G(t){let i=0,a=0,o=0,s={},c={},l=Object.keys(e);l.forEach(e=>{s[e]=0,c[e]=0}),N.forEach(e=>{let t=M(e);t.atmosCount>0&&i++,t.dvCount>0&&a++,t.fourKCount>0&&o++;let n=_(e.id);for(let[e,t]of Object.entries(n))t.video&&t.video!==`-`&&(c[e]=(c[e]||0)+1,(t.audio===`Atmos`||t.audio===`Dolby Atmos`)&&(s[e]=(s[e]||0)+1))});let u=l.filter(e=>c[e]>0).map(e=>({code:e,name:r(e),atmosPct:c[e]>0?Math.round(s[e]/c[e]*100):0,atmosCount:s[e],total:c[e]})).sort((e,t)=>t.atmosPct-e.atmosPct||t.total-e.total);t.innerHTML=`
+  `;let t=`imdb-desc`;function n(e,t){let n=[...e];switch(t){case`imdb-desc`:return n.sort((e,t)=>parseFloat(t.imdbScore||0)-parseFloat(e.imdbScore||0));case`imdb-asc`:return n.sort((e,t)=>parseFloat(e.imdbScore||0)-parseFloat(t.imdbScore||0));case`rotten-desc`:return n.sort((e,t)=>parseFloat(t.rottenScore||0)-parseFloat(e.rottenScore||0));case`rotten-asc`:return n.sort((e,t)=>parseFloat(e.rottenScore||0)-parseFloat(t.rottenScore||0));case`year-desc`:return n.sort((e,t)=>parseInt(t.year||0)-parseInt(e.year||0));case`year-asc`:return n.sort((e,t)=>parseInt(e.year||0)-parseInt(t.year||0));case`title-asc`:return n.sort((e,t)=>(e.title||``).localeCompare(t.title||``));case`title-desc`:return n.sort((e,t)=>(t.title||``).localeCompare(e.title||``));default:return n}}let r=[];function i(e){document.querySelectorAll(`.chip`).forEach(t=>t.classList.toggle(`active`,t.dataset.filter===e)),r=N.filter(t=>{let n=M(t);switch(e){case`dv-atmos`:return n.dvCount>0&&n.atmosCount>0;case`dv`:return n.dvCount>0;case`atmos`:return n.atmosCount>0;case`4k`:return n.fourKCount>0;case`jp-hd-abroad-4k`:let e=_(t.id),r=e.JP;if(r&&r.video&&r.video!==`SDR`&&r.video!==`-`)return!1;for(let[t,n]of Object.entries(e))if(t!==`JP`&&n.video&&n.video!==`SDR`&&n.video!==`-`)return!0;return!1;case`all`:return!0;default:return!0}}),a(t)}function a(e){t=e;let i=n(r,e).slice(0,1500),a=document.getElementById(`sort-count`);a&&(a.textContent=`${i.length} movies`);let o=document.getElementById(`discover-grid`);o.innerHTML=``,i.forEach(e=>o.appendChild(B(e)))}document.querySelectorAll(`.chip`).forEach(e=>{e.onclick=()=>i(e.dataset.filter)}),document.getElementById(`sort-select`).onchange=e=>a(e.target.value),i(`dv-atmos`)}function G(t){let i=0,a=0,o=0,s={},c={},l=Object.keys(e);l.forEach(e=>{s[e]=0,c[e]=0}),N.forEach(e=>{let t=M(e);t.atmosCount>0&&i++,t.dvCount>0&&a++,t.fourKCount>0&&o++;let n=_(e.id);for(let[e,t]of Object.entries(n))t.video&&t.video!==`-`&&(c[e]=(c[e]||0)+1,(t.audio===`Atmos`||t.audio===`Dolby Atmos`)&&(s[e]=(s[e]||0)+1))});let u=l.filter(e=>c[e]>0).map(e=>({code:e,name:r(e),atmosPct:c[e]>0?Math.round(s[e]/c[e]*100):0,atmosCount:s[e],total:c[e]})).sort((e,t)=>t.atmosPct-e.atmosPct||t.total-e.total);t.innerHTML=`
     <h1 class="section-title" style="font-size:1.8rem;margin-bottom:24px"><span class="emoji">📊</span> Analytics</h1>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-number">${N.length.toLocaleString()}</div><div class="stat-label">Total Movies</div></div>
