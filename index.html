@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple TV Quality Explorer — Compare 4K, Dolby Vision & Atmos Worldwide</title>
+  <meta name="description" content="Compare Apple TV movie quality across 40+ countries. Find 4K, Dolby Vision, and Dolby Atmos availability for every movie." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header Nav -->
+    <header id="main-header">
+      <div class="header-inner">
+        <a href="#/" class="logo">
+          <span class="logo-icon">🎬</span>
+          <span class="logo-text">Quality Explorer</span>
+        </a>
+        <nav id="main-nav">
+          <a href="#/" class="nav-link active" data-page="home">Home</a>
+          <a href="#/discover" class="nav-link" data-page="discover">Discover</a>
+          <a href="#/analytics" class="nav-link" data-page="analytics">Analytics</a>
+          <a href="#/watchlist" class="nav-link" data-page="watchlist">Watchlist</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main id="page-content">
+      <div class="loading-screen" id="loading-screen">
+        <div class="loader-ring"></div>
+        <p>Loading movie database...</p>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
