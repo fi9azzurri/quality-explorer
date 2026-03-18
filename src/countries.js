@@ -61,23 +61,13 @@ export function getCountryName(code) {
 }
 
 /**
- * Convert title to JustWatch slug format
- */
-function slugify(text) {
-  return text.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-');
-}
-
-/**
  * Get JustWatch URL for a movie in a specific country.
+ * Using the search endpoint guarantees no 404s, as JustWatch URL slugs can be unpredictable.
  */
 export function getJustWatchUrl(code, title) {
   // Use 'uk' instead of 'gb' for JustWatch UK (though gb often redirects, uk is safer)
   const cc = code.toLowerCase() === 'gb' ? 'uk' : code.toLowerCase();
-  return `https://www.justwatch.com/${cc}/movie/${slugify(title)}`;
+  return `https://www.justwatch.com/${cc}/search?q=${encodeURIComponent(title)}`;
 }
 
 /** Create a flag element with tooltip — opens JustWatch page on click */
