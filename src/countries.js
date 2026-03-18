@@ -48,24 +48,7 @@ export const COUNTRY_DATA = {
   ZA: { name: 'South Africa', emoji: '🇿🇦' },
 };
 
-/**
- * CheapCharts country code mapping.
- * Only countries supported by CheapCharts are clickable.
- * Source: cheapcharts.info available country pages
- */
-const CHEAPCHARTS_COUNTRIES = {
-  US: 'us', CA: 'ca', MX: 'mx',
-  GB: 'gb', DE: 'de', FR: 'fr', IT: 'it', ES: 'es', PT: 'pt',
-  NL: 'nl', BE: 'be', IE: 'ie', AT: 'at', CH: 'ch',
-  SE: 'se', DK: 'dk', NO: 'no', FI: 'fi',
-  PL: 'pl', CZ: 'cz', HU: 'hu', RO: 'ro',
-  AU: 'au', NZ: 'nz', BR: 'br', AR: 'ar', CL: 'cl', CO: 'co',
-  IN: 'in', JP: 'jp', KR: 'kr',
-  TR: 'tr', ZA: 'za', IL: 'il',
-  SG: 'sg', TH: 'th', MY: 'my', PH: 'ph', ID: 'id',
-  HK: 'hk', TW: 'tw',
-  AE: 'ae', SA: 'sa',
-};
+
 
 /** Get flag image URL from flagcdn */
 export function getFlagUrl(code, size = 32) {
@@ -77,22 +60,14 @@ export function getCountryName(code) {
   return COUNTRY_DATA[code]?.name || code;
 }
 
-/** Check if a country is supported by CheapCharts */
-export function hasCheapCharts(code) {
-  return code in CHEAPCHARTS_COUNTRIES;
-}
-
 /**
- * Get CheapCharts search URL for a movie in a specific country.
- * Returns URL string or null if country not supported.
+ * Get Apple TV search URL for a movie in a specific country.
  */
-export function getCheapChartsUrl(code, title) {
-  const cc = CHEAPCHARTS_COUNTRIES[code];
-  if (!cc) return null;
-  return `https://www.cheapcharts.info/${cc}/search?q=${encodeURIComponent(title)}`;
+export function getAppleTvUrl(code, title) {
+  return `https://tv.apple.com/${code.toLowerCase()}/search?q=${encodeURIComponent(title)}`;
 }
 
-/** Create a flag element with tooltip — opens CheapCharts page on click */
+/** Create a flag element with tooltip — opens Apple TV page on click */
 export function createFlagElement(code, clickable = true, title = '') {
   const item = document.createElement('div');
   item.className = 'flag-item';
@@ -109,14 +84,14 @@ export function createFlagElement(code, clickable = true, title = '') {
   tooltip.textContent = getCountryName(code);
   item.appendChild(tooltip);
 
-  const cheapChartsUrl = title ? getCheapChartsUrl(code, title) : null;
+  const appleTvUrl = title ? getAppleTvUrl(code, title) : null;
 
-  if (clickable && cheapChartsUrl) {
+  if (clickable && appleTvUrl) {
     item.style.cursor = 'pointer';
     item.addEventListener('click', (e) => {
       e.preventDefault();
       // Direct navigation — no API call, no popup blocker, no confirmation
-      window.open(cheapChartsUrl, '_blank');
+      window.open(appleTvUrl, '_blank');
     });
   }
 
