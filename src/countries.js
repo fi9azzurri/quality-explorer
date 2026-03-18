@@ -61,13 +61,26 @@ export function getCountryName(code) {
 }
 
 /**
- * Get Apple TV search URL for a movie in a specific country.
+ * Convert title to JustWatch slug format
  */
-export function getAppleTvUrl(code, title) {
-  return `https://tv.apple.com/${code.toLowerCase()}/search?q=${encodeURIComponent(title)}`;
+function slugify(text) {
+  return text.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
 }
 
-/** Create a flag element with tooltip — opens Apple TV page on click */
+/**
+ * Get JustWatch URL for a movie in a specific country.
+ */
+export function getJustWatchUrl(code, title) {
+  // Use 'uk' instead of 'gb' for JustWatch UK (though gb often redirects, uk is safer)
+  const cc = code.toLowerCase() === 'gb' ? 'uk' : code.toLowerCase();
+  return `https://www.justwatch.com/${cc}/movie/${slugify(title)}`;
+}
+
+/** Create a flag element with tooltip — opens JustWatch page on click */
 export function createFlagElement(code, clickable = true, title = '') {
   const item = document.createElement('div');
   item.className = 'flag-item';
@@ -84,14 +97,14 @@ export function createFlagElement(code, clickable = true, title = '') {
   tooltip.textContent = getCountryName(code);
   item.appendChild(tooltip);
 
-  const appleTvUrl = title ? getAppleTvUrl(code, title) : null;
+  const justWatchUrl = title ? getJustWatchUrl(code, title) : null;
 
-  if (clickable && appleTvUrl) {
+  if (clickable && justWatchUrl) {
     item.style.cursor = 'pointer';
     item.addEventListener('click', (e) => {
       e.preventDefault();
       // Direct navigation — no API call, no popup blocker, no confirmation
-      window.open(appleTvUrl, '_blank');
+      window.open(justWatchUrl, '_blank');
     });
   }
 
