@@ -9,8 +9,13 @@ const TMDB_IMG = 'https://image.tmdb.org/t/p';
 // Cache posters in localStorage (versioned to allow auto-invalidation)
 const CACHE_KEY = 'tmdb_poster_cache';
 const CACHE_VERSION_KEY = 'tmdb_poster_cache_v';
-const CACHE_VERSION = 3; // Bump this to invalidate all cached posters
+const CACHE_VERSION = 4; // Bump this to invalidate all cached posters
 const posterCache = loadCache();
+
+// Manual overrides for difficult or contentious posters
+const POSTER_OVERRIDES = {
+  'Heat_1995': '/EJFkJD9BH400jfzKz3W5xLYHQa.jpg',
+};
 
 function loadCache() {
   try {
@@ -52,6 +57,11 @@ function pickBestPoster(results, title) {
  */
 export async function getPoster(title, year, size = 'w342') {
   const cacheKey = `${title}_${year}`;
+  
+  if (POSTER_OVERRIDES[cacheKey]) {
+    return `${TMDB_IMG}/${size}${POSTER_OVERRIDES[cacheKey]}`;
+  }
+
   if (posterCache[cacheKey] !== undefined) {
     return posterCache[cacheKey] ? `${TMDB_IMG}/${size}${posterCache[cacheKey]}` : null;
   }
